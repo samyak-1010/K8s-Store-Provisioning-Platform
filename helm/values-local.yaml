@@ -1,0 +1,7 @@
+platform:
+  ingress:
+    host: platform.localtest.me
+  backend:
+    image: platform-backend:latest
+  dashboard:
+    image: platform-dashboard:latest

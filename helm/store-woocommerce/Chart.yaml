@@ -1,0 +1,6 @@
+apiVersion: v2
+name: store-woocommerce
+description: A Helm chart for a WooCommerce Store
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

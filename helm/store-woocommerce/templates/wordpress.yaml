@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-wordpress
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: {{ .Values.wordpress.image }}
+        livenessProbe:
+          httpGet:
+            path: /wp-login.php
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /wp-login.php
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: {{ .Release.Name }}-mysql
+        - name: WORDPRESS_DB_USER
+          value: {{ .Values.mysql.user }}
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-db-secret
+              key: mysql-password
+        - name: WORDPRESS_DB_NAME
+          value: {{ .Values.mysql.database }}
+        - name: WORDPRESS_DEBUG
+          value: "1"
+        ports:
+        - containerPort: 80
+          name: wordpress
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-wordpress
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: {{ .Release.Name }}-wordpress

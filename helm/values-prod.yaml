@@ -1,0 +1,7 @@
+platform:
+  ingress:
+    host: platform.example.com
+  backend:
+    image: ghcr.io/myorg/platform-backend:latest
+  dashboard:
+    image: ghcr.io/myorg/platform-dashboard:latest

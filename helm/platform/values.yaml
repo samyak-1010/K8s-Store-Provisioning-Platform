@@ -1,0 +1,12 @@
+backend:
+  image: platform-backend:latest
+  replicas: 1
+  port: 3000
+dashboard:
+  image: platform-dashboard:latest
+  replicas: 1
+  port: 80
+ingress:
+  enabled: true
+  className: "nginx"
+  host: "platform.localtest.me"

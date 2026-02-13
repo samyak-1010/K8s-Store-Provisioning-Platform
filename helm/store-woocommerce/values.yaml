@@ -1,0 +1,22 @@
+mysql:
+  image: mysql:5.7
+  rootPassword: "root_password"
+  database: wordpress
+  user: wordpress
+  password: "wp_password"
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "" # default
+
+wordpress:
+  image: wordpress:latest
+  title: "My WooCommerce Store"
+  adminUser: "admin"
+  adminPassword: "password"
+  adminEmail: "admin@example.com"
+  
+ingress:
+  enabled: true
+  className: "nginx"
+  host: "store.localtest.me"
