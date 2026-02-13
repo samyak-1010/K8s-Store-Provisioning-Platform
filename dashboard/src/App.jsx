@@ -10,7 +10,8 @@ function App() {
 
     const fetchStores = async () => {
         try {
-            const res = await axios.get('/api/stores');
+            const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+            const res = await axios.get(`${apiBase}/api/stores`);
             setStores(res.data);
         } catch (err) {
             console.error("Failed to fetch stores", err);
@@ -29,7 +30,8 @@ function App() {
 
         setLoading(true);
         try {
-            await axios.post('/api/stores', {
+            const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+            await axios.post(`${apiBase}/api/stores`, {
                 name: newStoreName,
                 type: newStoreType
             });
@@ -45,7 +47,8 @@ function App() {
     const deleteStore = async (id) => {
         if (!confirm('Are you sure you want to delete this store?')) return;
         try {
-            await axios.delete(`/api/stores/${id}`);
+            const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+            await axios.delete(`${apiBase}/api/stores/${id}`);
             fetchStores();
         } catch (err) {
             alert('Failed to delete store');
